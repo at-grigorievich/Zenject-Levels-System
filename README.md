@@ -4,6 +4,8 @@ It's a level control system in Unity using Zenject containers
 
 Allows you to dynamically create levels using ScriptableObject.
 
+[Download like unitypackage](https://github.com/at-grigorievich/Zenject-Levels-System/blob/main/Zenject%20Levels%20System.unitypackage)
+
 Two types of level are supported: Runner like & Matrix NxM size
 
 1) Drag prefabs from the Prefabs folder to the game scene
