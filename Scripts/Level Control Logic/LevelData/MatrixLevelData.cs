@@ -50,7 +50,7 @@ namespace ATG.LevelControl
                 arr.AddRange(createLevel.InstantiateBlocks<T, EnvironmentBlock>(line, parent));
             }
 
-            return null;
+            return arr.ToArray();
         }
     }
 }

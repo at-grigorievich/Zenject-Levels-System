@@ -7,7 +7,7 @@ namespace ATG.LevelControl
 {
     public class ATGLevelSystem: ILevelSystem, IInitializable
     {
-        private const string LevelInfoRef = "Level_info";
+        private const string LevelInfoRef = "Level_ID";
 
         [Inject] private LevelDataList _levelDataList;
         [Inject] private PlayerData.PlayerData _playerData;
