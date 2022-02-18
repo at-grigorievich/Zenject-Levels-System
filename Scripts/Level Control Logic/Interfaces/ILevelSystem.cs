@@ -1,5 +1,3 @@
-using System;
-
 namespace ATG.LevelControl
 {
     public interface ILevelSystem

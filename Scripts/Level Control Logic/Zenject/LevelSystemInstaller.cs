@@ -13,8 +13,8 @@ namespace ATG.LevelControl
         private void BindSystem()
         {
             Container
-                .Bind<ATG.LevelControl.ILevelSystem>()
-                .To<ATG.LevelControl.ATGLevelSystem>()
+                .Bind<ILevelSystem>()
+                .To<ATGLevelSystem>()
                 .AsSingle();
         }
         private void BindStatus()
