@@ -32,6 +32,12 @@ Constant height :
 Different height:                    
 ![alt text]( https://github.com/at-grigorievich/Zenject-Levels-System/blob/main/Screens/matrix1.jpg?raw=true  "Matrix like 2")
 
+# Example 3. Static level:
+
+Allows to create objects in the coordinates specified in the prefab
+Zenject and Non-Zenject types available
+
+![alt text]( https://github.com/at-grigorievich/Zenject-Levels-System/blob/main/Screens/staticI.jpg?raw=true "Static like")
 
 
 Using: 
