@@ -7,12 +7,16 @@ namespace ATG.LevelControl
         Line,
         Matrix,
         ZenjectLine,
-        ZenjectMatrix
+        ZenjectMatrix,
+        Static,
+        ZenjectStatic
     }
     public enum LineLevelType
     {
         Line,
-        ZenjectLine
+        Static,
+        ZenjectLine,
+        ZenjectStatic
     }
 
     public enum MatrixLevelType
@@ -32,8 +36,7 @@ namespace ATG.LevelControl
         public abstract LevelType TypeOfLevel { get;}
 
 
-        public abstract T[] GetAnsInstantiateLevelBlocks<T>(ICreateLevelBehaviour createLevel)
-            where T : ILevelBlock<MonoBehaviour>;
+        public abstract T[] GetAnsInstantiateLevelBlocks<T>(ICreateLevelBehaviour createLevel);
 
         protected GameObject CreateSceneDataObjects() => new GameObject("----SCENE----");
     }
