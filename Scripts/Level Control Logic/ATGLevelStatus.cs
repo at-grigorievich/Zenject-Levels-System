@@ -8,17 +8,17 @@ namespace ATG.LevelControl
         public event EventHandler OnCompleteLevel;
         public event EventHandler OnFailedLevel;
         
-        public void StartLevel()
+        public virtual void StartLevel()
         {
             OnLevelStart?.Invoke(this,null);
         }
 
-        public void CompleteLevel()
+        public virtual void CompleteLevel()
         {
             OnCompleteLevel?.Invoke(this,null);
         }
 
-        public void FailedLevel()
+        public virtual void FailedLevel()
         {
             OnFailedLevel?.Invoke(this,null);
         }
