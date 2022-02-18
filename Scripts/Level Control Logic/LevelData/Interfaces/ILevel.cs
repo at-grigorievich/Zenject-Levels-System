@@ -8,8 +8,7 @@ namespace ATG.LevelControl
         string Name { get; }
         
         LevelType TypeOfLevel { get; }
-        
-        T[] GetAnsInstantiateLevelBlocks<T>(ICreateLevelBehaviour _createLevel) 
-            where T:ILevelBlock<MonoBehaviour>;
+
+        T[] GetAnsInstantiateLevelBlocks<T>(ICreateLevelBehaviour _createLevel);
     }
 }

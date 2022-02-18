@@ -1,49 +1,40 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ATG.LevelControl
 {
-    public class LineLevelBehaviour: ICreateLevelBehaviour
+    public class LineLevelBehaviour : ICreateLevelBehaviour
     {
-        public T[] InstantiateBlocks<T,K>(K[] blocks, GameObject blocksParent) 
-            where T : ILevelBlock<MonoBehaviour>
+        public T[] InstantiateBlocks<T>(EnvironmentBlock[] blocks, GameObject blocksParent)
         {
-            var arr = new T[blocks.Length];
-            
+            var arr = new List<T>();
+
             Vector3 lastPos = Vector3.zero;
-            
+
             for (int i = 0; i < blocks.Length; i++)
             {
-                var blockPos = lastPos;
+                var beh = blocks[i];
+                var b = GameObject.Instantiate(beh);
 
-                if (blocks[i] is MonoBehaviour beh)
+                if (b.transform.TryGetComponent(out T block))
                 {
-                    var b = GameObject.Instantiate(beh);
+                    arr.Add(block);
 
-                    if (b is T block)
-                    {
-                        arr[i] = block;
-                        
-                        Vector3 middle = (i > 0 ? arr[i].Size / 2f : Vector3.zero);
-                        
-                        b.transform.position = lastPos + middle;
-                        b.transform.rotation = Quaternion.identity;
-                        b.transform.SetParent(blocksParent.transform);
-                        
-                        lastPos = b.transform.position + arr[i].Size/2f;
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"{b.transform.name} hasn't environment block type!");
-                    }
+                    Vector3 middle = (i > 0 ? beh.Size / 2f : Vector3.zero);
+
+                    b.transform.position = lastPos + middle;
+                    b.transform.rotation = Quaternion.identity;
+                    b.transform.SetParent(blocksParent.transform);
+
+                    lastPos = b.transform.position + beh.Size / 2f;
                 }
                 else
                 {
-                    throw new ArgumentException("blocks array is not spawnable !");
+                    Debug.LogWarning($"{b.transform.name} hasn't {typeof(T)} type!");
                 }
             }
 
-            return arr;
+            return arr.ToArray();
         }
     }
 }

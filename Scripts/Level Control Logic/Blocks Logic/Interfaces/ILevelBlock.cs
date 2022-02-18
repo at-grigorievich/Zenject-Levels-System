@@ -2,7 +2,7 @@
 
 namespace ATG.LevelControl
 {
-    public interface ILevelBlock<T>
+    public interface ILevelBlock
     {
         Vector3 Size { get; }
     }

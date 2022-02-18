@@ -47,7 +47,7 @@ namespace ATG.LevelControl
                     line[j] = el?.Block;
                 }
 
-                arr.AddRange(createLevel.InstantiateBlocks<T, EnvironmentBlock>(line, parent));
+                arr.AddRange(createLevel.InstantiateBlocks<T>(line, parent));
             }
 
             return arr.ToArray();

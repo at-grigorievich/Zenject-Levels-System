@@ -1,60 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ATG.LevelControl
 {
-    public class MatrixLevelBehaviour:ICreateLevelBehaviour
+    public class MatrixLevelBehaviour : ICreateLevelBehaviour
     {
         private readonly List<float> _lastVertical = new List<float>();
 
-        public T[] InstantiateBlocks<T, K>(K[] blocks, GameObject blocksParent) where T : ILevelBlock<MonoBehaviour>
+        public T[] InstantiateBlocks<T>(EnvironmentBlock[] blocks, GameObject blocksParent)
         {
-            var arr = new T[blocks.Length];
-            
+            var arr = new List<T>();
+
             Vector3 lastHorizontal = Vector3.zero;
-            
+
             for (int i = 0; i < blocks.Length; i++)
             {
-                if (blocks[i] is MonoBehaviour beh)
+                var beh = blocks[i];
+                var b = GameObject.Instantiate(beh);
+
+                if (b.transform.TryGetComponent(out T block))
                 {
-                    var b = GameObject.Instantiate(beh);
+                    arr.Add(block);
 
-                    if (b is T block)
+                    Vector3 middle =
+                        (i > 0 ? new Vector3(0f, beh.Size.y * 2f, beh.Size.z) / 2f : Vector3.up * beh.Size.y);
+
+                    Vector3 vertical = _lastVertical.Count > i
+                        ? (_lastVertical[i] + beh.Size.x / 2f) * Vector3.right
+                        : Vector3.zero;
+
+                    b.transform.position = lastHorizontal + middle + vertical;
+                    b.transform.rotation = Quaternion.identity;
+                    b.transform.SetParent(blocksParent.transform);
+
+                    if (_lastVertical.Count >= i + 1)
                     {
-                        arr[i] = block;
-                        
-                        Vector3 middle = (i > 0 ? new Vector3(0f,arr[i].Size.y *2f,arr[i].Size.z) / 2f : Vector3.up*arr[i].Size.y);
-                        
-                        Vector3 vertical = _lastVertical.Count > i ? (_lastVertical[i] + arr[i].Size.x/2f  )* Vector3.right : Vector3.zero;
-
-                        b.transform.position = lastHorizontal + middle + vertical;
-                        b.transform.rotation = Quaternion.identity;
-                        b.transform.SetParent(blocksParent.transform);
-
-                        if (_lastVertical.Count >= i+1)
-                        {
-                            _lastVertical[i] = b.transform.position.x + arr[i].Size.x /2f;
-                        }
-                        else
-                        {
-                            _lastVertical.Add(b.transform.position.x + arr[i].Size.x /2f);
-                        }
-                        
-                        lastHorizontal = new Vector3(0f,0f,b.transform.position.z) + new Vector3(0f,0f,arr[i].Size.z)/2f;
-                        
+                        _lastVertical[i] = b.transform.position.x + beh.Size.x / 2f;
                     }
                     else
                     {
-                        throw new ArgumentException($"{b.transform.name} hasn't environment block type!");
+                        _lastVertical.Add(b.transform.position.x + beh.Size.x / 2f);
                     }
+
+                    lastHorizontal = new Vector3(0f, 0f, b.transform.position.z) + new Vector3(0f, 0f, beh.Size.z) / 2f;
                 }
                 else
                 {
-                    throw new ArgumentException("blocks array is not spawnable !");
+                    Debug.LogWarning($"{b.transform.name} hasn't {typeof(T)} type!");
                 }
             }
-            return arr;
+
+            return arr.ToArray();
         }
     }
 }

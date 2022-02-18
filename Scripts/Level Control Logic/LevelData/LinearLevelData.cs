@@ -20,7 +20,7 @@ namespace ATG.LevelControl
                 throw new NullReferenceException("CreateLevelBehaviour is null");
             
             var levelParent = CreateSceneDataObjects();
-            return createLevel.InstantiateBlocks<T,EnvironmentBlock>(_blocks, levelParent);
+            return createLevel.InstantiateBlocks<T>(_blocks, levelParent);
         }
     }
 }

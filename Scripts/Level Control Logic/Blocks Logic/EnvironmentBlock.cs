@@ -3,7 +3,7 @@ using Zenject;
 
 namespace ATG.LevelControl
 {
-    public class EnvironmentBlock: MonoBehaviour, ILevelBlock<MonoBehaviour>
+    public class EnvironmentBlock: MonoBehaviour, ILevelBlock
     {
         [SerializeField] private Vector3 size;
 

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace ATG.LevelControl
 {
-    public class ZenjectLineLevelBehaviour<K>: ICreateLevelBehaviour
-        where K: MonoBehaviour
+    public class ZenjectLineLevelBehaviour<K> : ICreateLevelBehaviour
+        where K : EnvironmentBlock
     {
         private readonly PlaceholderFactory<GameObject, K> _factory;
 
@@ -14,39 +14,36 @@ namespace ATG.LevelControl
             _factory = factory;
         }
 
-        public T[] InstantiateBlocks<T,K>(K[] blocks, GameObject blocksParent) 
-            where T : ILevelBlock<MonoBehaviour>
+        public T[] InstantiateBlocks<T>(EnvironmentBlock[] blocks, GameObject blocksParent)
         {
-            var arr = new T[blocks.Length];
-            
+            var arr = new List<T>();
+
             Vector3 lastPos = Vector3.zero;
-            
+
             for (int i = 0; i < blocks.Length; i++)
             {
-                if (blocks[i] is MonoBehaviour beh)
-                {
-                    var b = _factory.Create(beh.gameObject);
-                    
-                    if (b is T block)
-                    {
-                        arr[i] = block;
+                var beh = blocks[i];
+                var b = _factory.Create(beh.gameObject);
 
-                        Vector3 middle = (i > 0 ? arr[i].Size / 2f : Vector3.zero);
-                        
-                        b.transform.position = lastPos + middle;
-                        b.transform.rotation = Quaternion.identity;
-                        b.transform.SetParent(blocksParent.transform);
-                        
-                        lastPos = b.transform.position + arr[i].Size/2f;
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"{b.transform.name} hasn't environment block type!");
-                    }
+                if (b.transform.TryGetComponent(out T block))
+                {
+                    arr.Add(block);
+
+                    Vector3 middle = (i > 0 ? b.Size / 2f : Vector3.zero);
+
+                    b.transform.position = lastPos + middle;
+                    b.transform.rotation = Quaternion.identity;
+                    b.transform.SetParent(blocksParent.transform);
+
+                    lastPos = b.transform.position + b.Size / 2f;
+                }
+                else
+                {
+                    Debug.LogWarning($"{b.transform.name} hasn't {typeof(T)} type!");
                 }
             }
 
-            return arr;
+            return arr.ToArray();
         }
     }
 }

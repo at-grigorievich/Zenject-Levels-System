@@ -4,7 +4,6 @@ namespace ATG.LevelControl
 {
     public interface ICreateLevelBehaviour
     {
-        T[] InstantiateBlocks<T, K>(K[] blocks, GameObject blocksParent)
-            where T : ILevelBlock<MonoBehaviour>;
+        T[] InstantiateBlocks<T>(EnvironmentBlock[] blocks, GameObject blocksParent);
     }
 }
