@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ATG.LevelControl
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(ATGLevelLoader))]
     public class PrefsCleanerEditor : Editor
     {
@@ -48,6 +49,7 @@ namespace ATG.LevelControl
             }
         }
     }
+#endif
 }
 
 
